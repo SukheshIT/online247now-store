@@ -1,0 +1,12 @@
+# Netlify routing for online247now.x
+#
+# The Netlify site is static. The store API (server/index.js) needs a Node host
+# with persistent storage (see DEPLOYMENT.md). Until that host exists, every
+# /api request gets a clear JSON 404 and the site shows "store opening soon".
+#
+# When the Node API is live, replace the /api line below with (one line):
+#   /api/*  https://YOUR-NODE-HOST/api/:splat  200
+# and set APP_ORIGIN=https://online247now.netlify.app on the Node host.
+
+/api/*  /api-offline.json  404
+/*      /index.html        200

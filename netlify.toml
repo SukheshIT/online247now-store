@@ -1,0 +1,20 @@
+# Used when Netlify builds from a Git repository.
+# For drag-and-drop deploys, upload the built "dist" folder (it already contains _redirects).
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
