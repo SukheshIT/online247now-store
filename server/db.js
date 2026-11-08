@@ -36,6 +36,8 @@ export async function openDatabase(config) {
     mkdirSync(config.dataDir, { recursive: true, mode: 0o700 });
     url = 'file:' + path.join(config.dataDir, 'store.db');
   }
+  // Use stateless HTTP instead of a long-lived WebSocket: more robust on hosts that sleep/restart.
+  if (url.startsWith('libsql://')) url = 'https://' + url.slice('libsql://'.length);
   const client = createClient({ url, authToken: config.databaseToken || undefined });
   await client.executeMultiple(SCHEMA);
 

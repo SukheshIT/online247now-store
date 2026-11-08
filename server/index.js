@@ -17,6 +17,7 @@ const payments = createPaymentGateway(config);
 const app = express();
 app.disable('x-powered-by');
 app.set('trust proxy', 1);
+app.use((req, res, next) => { const t = Date.now(); res.on('finish', () => console.log(`${req.method} ${req.originalUrl.split('?')[0]} ${res.statusCode} ${Date.now() - t}ms`)); next(); });
 app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: { policy: 'same-site' } }));
 app.use(express.json({ limit: '32kb', type: 'application/json' }));
 // Requests arrive through the Netlify proxy, which sends the visitor's IP in x-nf-client-connection-ip.
